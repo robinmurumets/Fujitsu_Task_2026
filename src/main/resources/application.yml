@@ -1,0 +1,70 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/delivery_fee;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    time-zone: UTC
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  weather:
+    cron: "0 15 * * * *"
+    observations-url: "https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php"
+  delivery-fee:
+    base-fees:
+      TALLINN:
+        CAR: 4.0
+        SCOOTER: 3.5
+        BIKE: 3.0
+      TARTU:
+        CAR: 3.5
+        SCOOTER: 3.0
+        BIKE: 2.5
+      PARNU:
+        CAR: 3.0
+        SCOOTER: 2.5
+        BIKE: 2.0
+    vehicle-rules:
+      SCOOTER:
+        temperature:
+          belowMinusTen: 1.0
+          betweenMinusTenAndZero: 0.5
+        phenomenon:
+          snowOrSleet: 1.0
+          rain: 0.5
+          forbidden:
+            - GLAZE
+            - HAIL
+            - THUNDER
+      BIKE:
+        temperature:
+          belowMinusTen: 1.0
+          betweenMinusTenAndZero: 0.5
+        wind:
+          aboveTenUpToTwenty: 0.5
+          forbiddenAbove: 20.0
+        phenomenon:
+          snowOrSleet: 1.0
+          rain: 0.5
+          forbidden:
+            - GLAZE
+            - HAIL
+            - THUNDER

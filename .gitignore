@@ -1,0 +1,13 @@
+.gradle/
+build/
+out/
+target/
+.idea/
+.vscode/
+*.iml
+*.log
+data/
+*.mv.db
+*.trace.db
+.DS_Store
+Thumbs.db
